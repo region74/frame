@@ -13,8 +13,13 @@ pd.set_option('display.max_colwidth', None)
 
 data_set = pd.read_excel('data.xlsx')
 
-# добавление колонки с расчетами
-data_set['dozvonli'] = [1 if x > 30 else 0 for x in data_set['Длительность звонка']]
+# добавление колонки с расчетами по формуле
+data_set['dozvonli'] = [1 if x >= 30 else 0 for x in data_set['Длительность звонка']]
+data_set['zvonok'] = 1
+# print(data_set)
 # сводная таблица
-print(data_set.pivot_table(index='Исходящая линия', values='dozvonli', aggfunc='sum'))
+count_dozvon = data_set.pivot_table(index=['Исходящая линия', 'Откуда'], values=['dozvonli', 'zvonok'],
+                                    aggfunc=[np.sum])
+print(count_dozvon)
+
 # print(data_set.head())
