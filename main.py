@@ -22,4 +22,3 @@ count_dozvon = data_set.pivot_table(index=['Исходящая линия', 'О�
                                     aggfunc=[np.sum])
 print(count_dozvon)
 
-# print(data_set.head())
