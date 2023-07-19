@@ -18,8 +18,6 @@ async def get_data():
     except Exception as e:
         with open('api.log', 'a', encoding='utf-8') as file:
             file.write(f'{datetime.now()} {str(e)}\n')
-
-
 def main():
     asyncio.run(get_data())
 
