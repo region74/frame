@@ -49,9 +49,22 @@ def table_time_day():
 
 # Опенер-телефон
 def table_opener_number():
-    pass
+    table = data.pivot_table(index=['Откуда'], columns='Исходящая линия',values=['Звонок','Дозвон'],
+                             aggfunc=[np.sum])
+    # ДИЧЬ ПОЛНАЯ
+
+    # добавляем в нее вычисляемое поле
+    # table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
+
+    # table = data.groupby(['Откуда', 'Исходящая линия']).agg({'Звонок': np.sum, 'Дозвон': np.sum})
+    # table['%дозвон']=table['Дозвон'] / table['Звонок']
+
+    # print(table)
 
 
 # Опенер-время
 def table_opener_time():
     pass
+
+table_opener_number()
+# table_opener()
