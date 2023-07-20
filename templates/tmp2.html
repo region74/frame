@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Сводная таблица</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        /* Добавляем стили для разных цветов фона */
+        td.red {
+            background-color: red;
+        }
+
+        td.orange {
+            background-color: orange;
+        }
+
+        td.green {
+            background-color: green;
+        }
+
+        td.light-gray {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <h1>Сводная таблица</h1>
+    <!-- Вставляем таблицу с помощью переменной table -->
+    {{ table | safe }}
+
+    <script>
+        // JavaScript код для изменения цвета фона ячеек с процентами и звонками
+        // Ваш шаблон должен иметь класс 'table' у элемента <table>
+        document.addEventListener('DOMContentLoaded', function() {
+            var table = document.querySelector('.table');
+            var rows = table.querySelectorAll('tbody tr');
+
+            for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].querySelectorAll('td');
+                var percentCell = cells[cells.length - 2]; // Ячейка с процентами (предпоследняя ячейка)
+                var percentValue = parseFloat(percentCell.innerText);
+                var callsCell = cells[cells.length - 1]; // Ячейка с звонками (последняя ячейка)
+                var callsValue = parseInt(callsCell.innerText);
+
+                if (percentValue < 10) {
+                    percentCell.style.backgroundColor = 'red';
+                } else if (percentValue >= 10 && percentValue <= 20) {
+                    percentCell.style.backgroundColor = 'orange';
+                } else {
+                    percentCell.style.backgroundColor = 'green';
+                }
+
+                if (callsValue < 40) {
+                    callsCell.style.backgroundColor = 'lightgray'; // Изменяем цвет фона для столбца "Звонок"
+                }
+
+                var sumCell = cells[cells.length - 3]; // Ячейка с суммой (колонка "sum")
+                var sumValue = parseInt(sumCell.innerText);
+
+                if (sumValue < 40) {
+                    sumCell.style.backgroundColor = 'lightgray'; // Изменяем цвет фона для столбца "sum"
+                }
+            }
+        });
+    </script>
+</body>
+</html>

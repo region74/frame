@@ -33,9 +33,6 @@ def table_number():
     table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
     # Возвращаем таблицу без многоуровневых индексов для удобства использования в шаблоне
     # table=table.droplevel(axis=1, level=1).reset_index()
-    # print(table.index)
-    # print(table.columns)
-    # print(table)
     return table
 
 
