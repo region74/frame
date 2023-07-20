@@ -53,16 +53,21 @@ def table_time_day():
 def table_opener_number(options: Union[int, str]):
     table = data.pivot_table(index=['Откуда', 'Исходящая линия'], values=['Звонок', 'Дозвон'],
                              aggfunc=[np.sum], fill_value=0)
-    # добавляем в нее вычисляемое поле
-    table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
+    # разрез звонков
     if options == 1:
         # Убираю лишнее поле
         table = table.drop(columns=('sum', 'Дозвон'))
+        table2 = table.pivot_table(index='Откуда', columns='Исходящая линия', fill_value=0)
+        table2.to_csv('tmp.csv', index=True)
+    # разрез дозвонов
+    elif options == 2:
+        # добавляем в нее вычисляемое поле
+        table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
+        table = table.drop(columns=('sum', 'Дозвон'))
+        table = table.drop(columns=('sum', 'Звонок'))
         # сводная от сводной, чтобы имея проценты разбить по номерам в столбцах
         table2 = table.pivot_table(index='Откуда', columns='Исходящая линия', fill_value=0)
-        print(table2.columns)
-    # чтобы глянуть в живую ч там
-    # table2.to_csv('tmp.csv', index=True)
+        table2.to_csv('tmp.csv', index=True)
 
     # Аналог создания первой сводной, только иными инструментами
     # table = data.groupby(['Откуда', 'Исходящая линия']).agg({'Звонок': np.sum, 'Дозвон': np.sum})
@@ -76,5 +81,5 @@ def table_opener_time():
     pass
 
 
-table_opener_number()
+table_opener_number(2)
 # table_opener()
