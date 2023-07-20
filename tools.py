@@ -16,6 +16,11 @@ pd.set_option('display.float_format', '{:.2f}'.format)
 data = prep_data()
 
 
+# Функция для форматирования числа в процентный формат
+def format_percent(x):
+    return '{:.2%}'.format(x)
+
+
 # По номера телефона
 def table_number():
     # делаем сводную таблицу
@@ -24,14 +29,14 @@ def table_number():
     # добавляем в нее вычисляемое поле
     table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
 
-    # Функция для форматирования числа в процентный формат
-    def format_percent(x):
-        return '{:.2%}'.format(x)
-
     # Применяем форматирование процентного значения к столбцу '%'
     table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
-
-    print(table)
+    # Возвращаем таблицу без многоуровневых индексов для удобства использования в шаблоне
+    # table=table.droplevel(axis=1, level=1).reset_index()
+    # print(table.index)
+    # print(table.columns)
+    # print(table)
+    return table
 
 
 # По номерам опенерам
@@ -40,7 +45,7 @@ def table_opener():
                              aggfunc=[np.sum])
     # добавляем в нее вычисляемое поле
     table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
-    print(table)
+    return table
 
 
 # По времени дня
@@ -53,7 +58,7 @@ def table_time_day():
     table = data.pivot_table(index='Часы', values=['Звонок', 'Дозвон'], aggfunc=[np.sum])
     table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
     table = table.drop(columns=('sum', 'Дозвон'))
-    print(table)
+    return table
 
 
 # Опенер-телефон
@@ -65,7 +70,7 @@ def table_opener_number(options: Union[int, str]):
         # Убираю лишнее поле
         table = table.drop(columns=('sum', 'Дозвон'))
         table2 = table.pivot_table(index='Откуда', columns='Исходящая линия', fill_value=0)
-        print(table2)
+        return table2
 
     # разрез дозвонов
     elif options == 2:
@@ -75,7 +80,7 @@ def table_opener_number(options: Union[int, str]):
         table = table.drop(columns=('sum', 'Звонок'))
         # сводная от сводной, чтобы имея проценты разбить по номерам в столбцах
         table2 = table.pivot_table(index='Откуда', columns='Исходящая линия', fill_value=0)
-        print(table2)
+        return table2
 
     # Аналог создания первой сводной, только иными инструментами
     # table = data.groupby(['Откуда', 'Исходящая линия']).agg({'Звонок': np.sum, 'Дозвон': np.sum})
@@ -95,7 +100,7 @@ def table_opener_time(options: Union[int, str]):
         # Убираю лишнее поле
         table = table.drop(columns=('sum', 'Дозвон'))
         table2 = table.pivot_table(index='Откуда', columns='Часы', fill_value=0)
-        print(table2)
+        return table2
     # разрез дозвонов
     elif options == 2:
         # добавляем в нее вычисляемое поле
@@ -104,4 +109,4 @@ def table_opener_time(options: Union[int, str]):
         table = table.drop(columns=('sum', 'Звонок'))
         # сводная от сводной, чтобы имея проценты разбить по номерам в столбцах
         table2 = table.pivot_table(index='Откуда', columns='Часы', fill_value=0)
-        print(table2)
+        return table2
