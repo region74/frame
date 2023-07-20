@@ -1,5 +1,4 @@
 from typing import Union
-
 import pandas as pd
 import numpy as np
 import openpyxl
@@ -46,8 +45,11 @@ def table_opener():
 
 # По времени дня
 def table_time_day():
+    # Делаем объект в Datatime
     data['Время'] = pd.to_datetime(data['Время'], format='%d.%m.%Y %H:%M:%S')
+    # Создаем часы
     data['Часы'] = data['Время'].dt.hour
+    # Делаем сводную таблицу
     table = data.pivot_table(index='Часы', values=['Звонок', 'Дозвон'], aggfunc=[np.sum])
     table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
     table = table.drop(columns=('sum', 'Дозвон'))
