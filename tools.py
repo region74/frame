@@ -1,3 +1,5 @@
+from typing import Union
+
 import pandas as pd
 import numpy as np
 import openpyxl
@@ -48,19 +50,19 @@ def table_time_day():
 
 
 # Опенер-телефон
-def table_opener_number():
+def table_opener_number(options: Union[int, str]):
     table = data.pivot_table(index=['Откуда', 'Исходящая линия'], values=['Звонок', 'Дозвон'],
                              aggfunc=[np.sum], fill_value=0)
-
     # добавляем в нее вычисляемое поле
     table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
-    # Убираю лишнее поле
-    table = table.drop(columns=('sum', 'Дозвон'))
-    # сводная от сводной, чтобы имея проценты разбить по номерам в столбцах
-    table2 = table.pivot_table(index='Откуда', columns='Исходящая линия', fill_value=0)
+    if options == 1:
+        # Убираю лишнее поле
+        table = table.drop(columns=('sum', 'Дозвон'))
+        # сводная от сводной, чтобы имея проценты разбить по номерам в столбцах
+        table2 = table.pivot_table(index='Откуда', columns='Исходящая линия', fill_value=0)
+        print(table2.columns)
     # чтобы глянуть в живую ч там
-    table2.to_csv('tmp.csv', index=True)
-
+    # table2.to_csv('tmp.csv', index=True)
 
     # Аналог создания первой сводной, только иными инструментами
     # table = data.groupby(['Откуда', 'Исходящая линия']).agg({'Звонок': np.sum, 'Дозвон': np.sum})
