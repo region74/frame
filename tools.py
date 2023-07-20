@@ -84,10 +84,32 @@ def table_opener_number(options: Union[int, str]):
 
 
 # Опенер-время
-def table_opener_time():
-    pass
+def table_opener_time(options: Union[int, str]):
+    # Делаем объект в Datatime
+    data['Время'] = pd.to_datetime(data['Время'], format='%d.%m.%Y %H:%M:%S')
+    # Создаем часы
+    data['Часы'] = data['Время'].dt.hour
+    table = data.pivot_table(index=['Откуда', 'Часы'], values=['Звонок', 'Дозвон'],
+                             aggfunc=[np.sum], fill_value=0)
+    # разрез звонков
+    if options == 1:
+        # Убираю лишнее поле
+        table = table.drop(columns=('sum', 'Дозвон'))
+        table2 = table.pivot_table(index='Откуда', columns='Часы', fill_value=0)
+        print(table2)
+        # table2.to_csv('tmp.csv', index=True)
+    # разрез дозвонов
+    elif options == 2:
+        # добавляем в нее вычисляемое поле
+        table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
+        table = table.drop(columns=('sum', 'Дозвон'))
+        table = table.drop(columns=('sum', 'Звонок'))
+        # сводная от сводной, чтобы имея проценты разбить по номерам в столбцах
+        table2 = table.pivot_table(index='Откуда', columns='Часы', fill_value=0)
+        print(table2)
 
 
-table_time_day()
+table_opener_time(1)
+# table_time_day()
 # table_opener_number(2)
 # table_opener()
