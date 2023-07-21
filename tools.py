@@ -39,9 +39,11 @@ def table_number():
 # По номерам опенерам
 def table_opener():
     table = data.pivot_table(index=['Откуда', 'Исходящая линия'], values=['Звонок', 'Дозвон'],
-                             aggfunc=[np.sum])
+                             aggfunc=[np.sum], margins=True, margins_name='Всего')
     # добавляем в нее вычисляемое поле
     table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
+    # Применяем форматирование процентного значения к столбцу '%'
+    table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
     return table
 
 
@@ -52,9 +54,13 @@ def table_time_day():
     # Создаем часы
     data['Часы'] = data['Время'].dt.hour
     # Делаем сводную таблицу
-    table = data.pivot_table(index='Часы', values=['Звонок', 'Дозвон'], aggfunc=[np.sum])
+    table = data.pivot_table(index='Часы', values=['Звонок', 'Дозвон'], aggfunc=[np.sum], margins=True,
+                             margins_name='Всего')
     table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
     table = table.drop(columns=('sum', 'Дозвон'))
+    # Применяем форматирование процентного значения к столбцу '%'
+    table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
+
     return table
 
 
