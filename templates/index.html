@@ -4,13 +4,22 @@
     <title>Главная</title>
 </head>
 <body>
-    <h1>Выберите диапазон данных</h1>
-    <form action="/" method="post">
-        <label for="start_date">Дата от:</label>
-        <input type="date" id="start_date" name="start_date" required>
-        <label for="end_date">Дата до:</label>
-        <input type="date" id="end_date" name="end_date" required>
-        <button type="submit">Отправить</button>
-    </form>
+<h1>Выберите диапазон данных</h1>
+<form action="/" method="post">
+    <label for="start_date">Дата от:</label>
+    <input type="date" id="start_date" name="start_date" required>
+    <label for="end_date">Дата до:</label>
+    <input type="date" id="end_date" name="end_date" required>
+    <button type="submit">Обновить</button>
+</form>
+<hr>
+
+<div>
+    <a href="/numbers" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">По номерам</a><br>
+    <a href="/openers" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">По опенерам</a><br>
+    <a href="/hours" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">По часам</a><br>
+    <a href="/openernumber" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">По опенерам-номерам</a><br>
+    <a href="/openerhours" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">По опенерам-часам</a><br>
+</div>
 </body>
 </html>
