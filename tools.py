@@ -4,7 +4,6 @@ import numpy as np
 from preparData import prep_data
 
 
-
 # Функция для форматирования числа в процентный формат
 def format_percent(x):
     return '{:.2%}'.format(x)

@@ -11,17 +11,8 @@ app = Flask(__name__)
 def index():
     if request.method == "POST":
         # Получаем данные из формы
-        start_date = request.form["start_date"]
-        end_date = request.form["end_date"]
-        print(start_date)
-        print(end_date)
-
-        date_object = datetime.strptime(start_date, '%Y-%m-%d').date()
-        start_date = date_object.strftime('%d-%m-%Y')
-
-        date_object = datetime.strptime(end_date, '%Y-%m-%d').date()
-        end_date = date_object.strftime('%d-%m-%Y')
-
+        start_date = (datetime.strptime(request.form["start_date"], '%Y-%m-%d').date()).strftime('%d-%m-%Y')
+        end_date = (datetime.strptime(request.form["end_date"], '%Y-%m-%d').date()).strftime('%d-%m-%Y')
         # Вызываем функцию для получения данных с api
         start_import(start_date, end_date)
         return render_template("index.html")

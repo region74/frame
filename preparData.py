@@ -5,7 +5,7 @@ file_path = 'api/data.csv'
 
 # Функция подготовки базовой таблицы для всех срезов
 def prep_data():
-    data = pd.read_csv(file_path, delimiter=';')
+    data = pd.read_csv(file_path, delimiter=';', low_memory=False)
     # удалим лишние данные
     new_data = data.drop(
         columns=['Схема', 'Кто разговаривал', 'Кто ответил', 'Оценка', 'ID записи', 'Метка', 'Теги', 'ID заказа звонка',
