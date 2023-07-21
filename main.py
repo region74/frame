@@ -60,11 +60,22 @@ def show_opener_number():
             return render_template('openernumber.html', table=table_html)
 
 
-@app.route('/openerhours')
+@app.route('/openerhours', methods=["GET", "POST"])
 def show_opener_hours():
-    pivot_table = table_opener_time(2)
-    table_html = pivot_table.to_html(classes='table table-striped table-bordered')
-    return render_template('openerhours.html', table=table_html)
+    if request.method == "GET":
+        pivot_table = table_opener_time(2)
+        table_html = pivot_table.to_html(classes='table table-striped table-bordered')
+        return render_template('openerhours.html', table=table_html)
+    if request.method == "POST":
+        value = request.form.get('choice')
+        if value == 'choice1':
+            pivot_table = table_opener_time(1)
+            table_html = pivot_table.to_html(classes='table table-striped table-bordered')
+            return render_template('openerhours2.html', table=table_html)
+        else:
+            pivot_table = table_opener_time(2)
+            table_html = pivot_table.to_html(classes='table table-striped table-bordered')
+            return render_template('openerhours.html', table=table_html)
 
 
 if __name__ == '__main__':
