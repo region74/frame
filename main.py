@@ -13,6 +13,8 @@ def index():
         # Получаем данные из формы
         start_date = request.form["start_date"]
         end_date = request.form["end_date"]
+        print(start_date)
+        print(end_date)
 
         date_object = datetime.strptime(start_date, '%Y-%m-%d').date()
         start_date = date_object.strftime('%d-%m-%Y')

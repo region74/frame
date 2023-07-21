@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 from preparData import prep_data
 
-data = prep_data()
 
 
 # Функция для форматирования числа в процентный формат
@@ -13,6 +12,7 @@ def format_percent(x):
 
 # По номера телефона
 def table_number():
+    data = prep_data()
     # делаем сводную таблицу
     table = data.pivot_table(index=['Исходящая линия', 'Откуда'], values=['Дозвон', 'Звонок'],
                              aggfunc=[np.sum], margins=True, margins_name='Всего')
@@ -28,6 +28,7 @@ def table_number():
 
 # По номерам опенерам
 def table_opener():
+    data = prep_data()
     table = data.pivot_table(index=['Откуда', 'Исходящая линия'], values=['Звонок', 'Дозвон'],
                              aggfunc=[np.sum], margins=True, margins_name='Всего')
     # добавляем в нее вычисляемое поле
@@ -39,6 +40,7 @@ def table_opener():
 
 # По времени дня
 def table_time_day():
+    data = prep_data()
     # Делаем объект в Datatime
     data['Время'] = pd.to_datetime(data['Время'], format='%d.%m.%Y %H:%M:%S')
     # Создаем часы
@@ -56,6 +58,7 @@ def table_time_day():
 
 # Опенер-телефон
 def table_opener_number(options: Union[int, str]):
+    data = prep_data()
     table = data.pivot_table(index=['Откуда', 'Исходящая линия'], values=['Звонок', 'Дозвон'],
                              aggfunc=[np.sum], fill_value=0)
     # разрез звонков
@@ -82,6 +85,7 @@ def table_opener_number(options: Union[int, str]):
 
 # Опенер-время
 def table_opener_time(options: Union[int, str]):
+    data = prep_data()
     # Делаем объект в Datatime
     data['Время'] = pd.to_datetime(data['Время'], format='%d.%m.%Y %H:%M:%S')
     # Создаем часы
