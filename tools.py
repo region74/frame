@@ -1,17 +1,7 @@
 from typing import Union
 import pandas as pd
 import numpy as np
-import openpyxl
 from preparData import prep_data
-
-# Сброс ограничений на число столбцов
-pd.set_option('display.max_columns', None)
-# Сброс ограничений на количество символов в записи
-pd.set_option('display.max_colwidth', None)
-# Сброс ограничений на количество выводимых рядов
-pd.set_option('display.max_rows', None)
-# чтобы отображалось везде 2 знака поле запятой
-pd.set_option('display.float_format', '{:.2f}'.format)
 
 data = prep_data()
 
