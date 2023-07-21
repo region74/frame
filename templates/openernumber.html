@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>По опенерам номерам</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         table {
             border-collapse: collapse;
@@ -33,6 +35,14 @@
         td.white {
             background-color: #fffaf0;
         }
+            button.btn-info {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+            /* Стилизация контейнера кнопки */
+    .button-container {
+        text-align: center; /* Центрирование содержимого по горизонтали */
+    }
 
 
 
@@ -40,6 +50,15 @@
 </head>
 <body>
 <h1 align="center">Опенер-номер (% дозвонов)</h1>
+<form action="/openernumber" method="post">
+
+    <div class="button-container"> <!-- Дополнительный контейнер для кнопки -->
+        <button type="submit" class="btn btn-info" id="choice" name="choice" value="choice1">Переключиться на количество
+            звонков
+        </button>
+    </div>
+
+</form>
 <!-- Вставляем таблицу с помощью переменной table -->
 {{ table | safe }}
 
@@ -77,6 +96,11 @@
                 }
             }
         });
+
+
+
+
+
 
 
 
