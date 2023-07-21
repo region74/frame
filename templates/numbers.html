@@ -34,8 +34,6 @@
             background-color: lightgray;
         }
 
-
-
     </style>
 </head>
 <body>
@@ -58,17 +56,19 @@
             var callsValue = parseInt(callsCell.innerText);
 
             if (percentValue < 32) {
-                percentCell.style.backgroundColor = 'red';
+                percentCell.style.backgroundColor = '#fa8072';
             } else if (percentValue >= 32 && percentValue <= 36) {
-                percentCell.style.backgroundColor = 'orange';
+                percentCell.style.backgroundColor = '#f4a460';
             } else {
-                percentCell.style.backgroundColor = 'green';
+                percentCell.style.backgroundColor = '#b8f5b5';
             }
-            if (callsValue < 40) {
+            if (callsValue <= 40) {
                     callsCell.style.backgroundColor = 'lightgray'; // Изменяем цвет фона для столбца "Звонок"
             }
         }
     });
+
+
 
 
 

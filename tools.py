@@ -25,7 +25,7 @@ def format_percent(x):
 def table_number():
     # делаем сводную таблицу
     table = data.pivot_table(index=['Исходящая линия', 'Откуда'], values=['Дозвон', 'Звонок'],
-                             aggfunc=[np.sum])
+                             aggfunc=[np.sum], margins=True, margins_name='Всего')
     # добавляем в нее вычисляемое поле
     table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
 
