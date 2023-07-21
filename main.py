@@ -1,11 +1,12 @@
 from datetime import datetime
 from api.load import start_import
-from flask import Flask, render_template,request
-from tools import table_number, table_opener, table_time_day,table_opener_number,table_opener_time
+from flask import Flask, render_template, request
+from tools import table_number, table_opener, table_time_day, table_opener_number, table_opener_time
 
 app = Flask(__name__)
 
 
+# TODO надо переделать, чтобы при каждом обновлении он не шел в api
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
@@ -19,11 +20,9 @@ def index():
         date_object = datetime.strptime(end_date, '%Y-%m-%d').date()
         end_date = date_object.strftime('%d-%m-%Y')
 
-        # Вызываем функцию для обработки данных
-        result = start_import(start_date, end_date)
-        # что то будет, мб и нет
-        # return render_template('')
-
+        # Вызываем функцию для получения данных с api
+        start_import(start_date, end_date)
+        return render_template("index.html")
 
     # Если запрос GET, показываем форму выбора даты
     return render_template("index.html")
@@ -55,6 +54,7 @@ def show_opener_number():
     pivot_table = table_opener_number(2)
     table_html = pivot_table.to_html(classes='table table-striped table-bordered')
     return render_template('openernumber.html', table=table_html)
+
 
 @app.route('/openerhours')
 def show_opener_hours():
