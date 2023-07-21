@@ -30,6 +30,11 @@
         td.green {
             background-color: green;
         }
+        td.light-gray {
+            background-color: lightgray;
+        }
+
+
 
     </style>
 </head>
@@ -49,6 +54,8 @@
             var cells = rows[i].querySelectorAll('td');
             var percentCell = cells[cells.length - 1]; // Ячейка с процентами (последняя ячейка)
             var percentValue = parseFloat(percentCell.innerText);
+            var callsCell = cells[cells.length - 2]; // Ячейка с звонками (последняя ячейка)
+            var callsValue = parseInt(callsCell.innerText);
 
             if (percentValue < 32) {
                 percentCell.style.backgroundColor = 'red';
@@ -57,8 +64,13 @@
             } else {
                 percentCell.style.backgroundColor = 'green';
             }
+            if (callsValue < 40) {
+                    callsCell.style.backgroundColor = 'lightgray'; // Изменяем цвет фона для столбца "Звонок"
+            }
         }
     });
+
+
 
 </script>
 </body>
