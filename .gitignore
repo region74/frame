@@ -4,3 +4,4 @@ config.py
 *.csv
 *.xlsx
 *.json
+!requirements.txt
