@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Главная</title>
 </head>
 <body>
-
+    <h1>Выберите диапазон данных</h1>
+    <form action="/" method="post">
+        <label for="start_date">Дата от:</label>
+        <input type="date" id="start_date" name="start_date" required>
+        <label for="end_date">Дата до:</label>
+        <input type="date" id="end_date" name="end_date" required>
+        <button type="submit">Отправить</button>
+    </form>
 </body>
 </html>

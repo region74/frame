@@ -1,12 +1,32 @@
-from flask import Flask, render_template
+from datetime import datetime
+from api.load import start_import
+from flask import Flask, render_template,request
 from tools import table_number, table_opener, table_time_day,table_opener_number,table_opener_time
 
 app = Flask(__name__)
 
 
-@app.route('/')
-def select_calls():
-    return render_template('index.html')
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        # Получаем данные из формы
+        start_date = request.form["start_date"]
+        end_date = request.form["end_date"]
+
+        date_object = datetime.strptime(start_date, '%Y-%m-%d').date()
+        start_date = date_object.strftime('%d-%m-%Y')
+
+        date_object = datetime.strptime(end_date, '%Y-%m-%d').date()
+        end_date = date_object.strftime('%d-%m-%Y')
+
+        # Вызываем функцию для обработки данных
+        result = start_import(start_date, end_date)
+        # что то будет, мб и нет
+        # return render_template('')
+
+
+    # Если запрос GET, показываем форму выбора даты
+    return render_template("index.html")
 
 
 @app.route('/numbers')
