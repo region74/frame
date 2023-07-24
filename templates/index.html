@@ -56,6 +56,14 @@
 <body>
 <br>
 <h1 align="center">Аналитика звонков</h1>
+{% if message %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <p align="center">{{ message }}</p>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{%endif%}
 <hr>
 <div class="form-container">
     <div class="form-data">
@@ -98,7 +106,7 @@
             </div>
             <br>
             <div class="button-container"> <!-- Дополнительный контейнер для кнопки -->
-                <button type="submit" name="dell_filters" class="btn btn-warning">Удалить фильтры</button>
+                <button type="submit" name="dell_filters" class="btn btn-warning">Сбросить фильтры</button>
             </div>
 
         </form>

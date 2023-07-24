@@ -3,11 +3,9 @@ from api.load import start_import
 from flask import Flask, render_template, request
 from tools import table_number, table_opener, table_time_day, table_opener_number, table_opener_time, show_openers_list, \
     show_numbers_list
-
 from preparData import filter_numbers, filter_openers, filter_delete
 
 app = Flask(__name__)
-
 
 
 # TODO надо переделать, чтобы при каждом обновлении он не шел в api
@@ -20,7 +18,9 @@ def index():
             end_date = (datetime.strptime(request.form["end_date"], '%Y-%m-%d').date()).strftime('%d-%m-%Y')
             # Вызываем функцию для получения данных с api
             start_import(start_date, end_date)
-            return render_template("index.html", data_list=show_openers_list(), numbers_list=show_numbers_list())
+            message = f'Получены данные звонков с {start_date} по {end_date}'
+            return render_template("index.html", data_list=show_openers_list(), numbers_list=show_numbers_list(),
+                                   message=message)
         elif 'change_openers' in request.form:
             filter_openers(request.form.getlist('options'))
             return render_template("index.html", data_list=show_openers_list(), numbers_list=show_numbers_list())
@@ -34,6 +34,7 @@ def index():
             return render_template("index.html", data_list=show_openers_list(), numbers_list=show_numbers_list())
     if request.method == "GET":
         return render_template("index.html", data_list=show_openers_list(), numbers_list=show_numbers_list())
+
 
 # Ниже страницы для отчетов по звонкам
 @app.route('/numbers')
