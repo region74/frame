@@ -1,7 +1,6 @@
 import pandas as pd
 
 file_path = 'api/data.csv'
-
 filter_open: list = []
 filter_num: list = []
 
@@ -20,6 +19,7 @@ def prep_data():
     new_data['Дозвон'] = [1 if duration > 10 and status == 'Отвечен' else 0 for duration, status in
                           zip(new_data['Длительность звонка'], new_data['Статус'])]
     new_data['Звонок'] = 1
+    # Это нужно чтобы работал query, с пробелами в названии не работает
     new_data = new_data.rename(columns={'Исходящая линия': 'ИсходящаяЛиния'})
     if filter_open != []:
         new_data = new_data.query(f'Откуда == {filter_open}')

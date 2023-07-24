@@ -33,11 +33,8 @@ def table_number():
                              aggfunc=[np.sum], margins=True, margins_name='Всего')
     # добавляем в нее вычисляемое поле
     table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
-
     # Применяем форматирование процентного значения к столбцу '%'
     table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
-    # Возвращаем таблицу без многоуровневых индексов для удобства использования в шаблоне
-    # table=table.droplevel(axis=1, level=1).reset_index()
     return table
 
 
@@ -79,8 +76,8 @@ def table_opener_number(options: Union[int, str]):
     if options == 1:
         # Убираю лишнее поле
         table = table.drop(columns=('sum', 'Дозвон'))
-        table2 = table.pivot_table(index='Откуда', columns='ИсходящаяЛиния', fill_value=0)
-        return table2
+        result_table = table.pivot_table(index='Откуда', columns='ИсходящаяЛиния', fill_value=0)
+        return result_table
 
     # разрез дозвонов
     elif options == 2:
@@ -89,12 +86,8 @@ def table_opener_number(options: Union[int, str]):
         table = table.drop(columns=('sum', 'Дозвон'))
         table = table.drop(columns=('sum', 'Звонок'))
         # сводная от сводной, чтобы имея проценты разбить по номерам в столбцах
-        table2 = table.pivot_table(index='Откуда', columns='ИсходящаяЛиния', fill_value=0)
-        return table2
-
-    # Аналог создания первой сводной, только иными инструментами
-    # table = data.groupby(['Откуда', 'Исходящая линия']).agg({'Звонок': np.sum, 'Дозвон': np.sum})
-    # table['%дозвон']=table['Дозвон'] / table['Звонок']
+        result_table = table.pivot_table(index='Откуда', columns='ИсходящаяЛиния', fill_value=0)
+        return result_table
 
 
 # Опенер-время
@@ -110,8 +103,8 @@ def table_opener_time(options: Union[int, str]):
     if options == 1:
         # Убираю лишнее поле
         table = table.drop(columns=('sum', 'Дозвон'))
-        table2 = table.pivot_table(index='Откуда', columns='Часы', fill_value=0)
-        return table2
+        result_table = table.pivot_table(index='Откуда', columns='Часы', fill_value=0)
+        return result_table
     # разрез дозвонов
     elif options == 2:
         # добавляем в нее вычисляемое поле
@@ -119,5 +112,5 @@ def table_opener_time(options: Union[int, str]):
         table = table.drop(columns=('sum', 'Дозвон'))
         table = table.drop(columns=('sum', 'Звонок'))
         # сводная от сводной, чтобы имея проценты разбить по номерам в столбцах
-        table2 = table.pivot_table(index='Откуда', columns='Часы', fill_value=0)
-        return table2
+        result_table = table.pivot_table(index='Откуда', columns='Часы', fill_value=0)
+        return result_table
