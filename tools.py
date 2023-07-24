@@ -9,6 +9,22 @@ def format_percent(x):
     return '{:.2%}'.format(x)
 
 
+# для фильтра по опенерам
+def show_openers_list():
+    data = prep_data()
+    data_set = data['Откуда'].tolist()
+    result = list(set(data_set))
+    return result
+
+
+# для фильтра по номерам
+def show_numbers_list():
+    data = prep_data()
+    data_set = data['Исходящая линия'].tolist()
+    result = list(set(data_set))
+    return result
+
+
 # По номера телефона
 def table_number():
     data = prep_data()
@@ -28,9 +44,6 @@ def table_number():
 # По номерам опенерам
 def table_opener():
     data = prep_data()
-    tmp=data['Откуда'].tolist()
-    print(set(tmp))
-    # table = data.groupby(['Откуда', 'Исходящая линия']).agg({'Звонок': np.sum, 'Дозвон': np.sum})
     data = data.query('Откуда == ["202 (Андриянова лариса)","418 (Луговский Григорий)"]')
 
     table = data.pivot_table(index=['Откуда', 'Исходящая линия'], values=['Звонок', 'Дозвон'],
@@ -39,12 +52,7 @@ def table_opener():
     table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
     # Применяем форматирование процентного значения к столбцу '%'
     table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
-    # print(table)
-
     return table
-
-
-table_opener()
 
 
 # По времени дня

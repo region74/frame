@@ -17,8 +17,9 @@
     }
         /* Стилизация контейнера формы */
     .form-container {
-        max-width: 400px; /* Максимальная ширина контейнера (примерное значение, можно изменить) */
-        margin: 0 auto; /* Центрирование по горизонтали: автоматические отступы слева и справа */
+        max-width: 50%; /* Максимальная ширина контейнера (примерное значение, можно изменить) */
+        display: flex;
+        margin: 0 auto;
         padding: 20px; /* Добавление внутренних отступов для внешнего вида */
         border: 1px solid #ccc; /* Параметры границы для контейнера (необязательно) */
 
@@ -27,25 +28,78 @@
     .button-container {
         text-align: center; /* Центрирование содержимого по горизонтали */
     }
+    .form-data{
+    order: 1;
+    margin-left: 0px;
+
+
+    }
+    .form-openers{
+    order:2;
+    margin-left: 40px;
+
+    }
+    .form-numbers{
+    order:3;
+    margin-left: 40px;
+
+    }
+     select {
+            height: 200px; /* Установите желаемую высоту */
+            font-size: 16px; /* Установите желаемый размер шрифта для опций */
+     }
+
+
 </style>
 <body>
 <br>
 <h1 align="center">Аналитика звонков</h1>
 <hr>
 <div class="form-container">
-    <p><strong>Выберите диапазон данных</strong></p>
-    <form action="/" method="post">
+    <div class="form-data">
+        <p><strong>Выберите диапазон данных:</strong></p>
+        <form action="/" method="post">
+            <label for="start_date">Дата начала:</label>
+            <input type="date" class="form-control" id="start_date" name="start_date" required>
+            <label for="end_date">Дата конца:</label>
+            <input type="date" class="form-control" id="end_date" name="end_date" required>
+            <div class="button-container"> <!-- Дополнительный контейнер для кнопки -->
+                <button type="submit" name="change_data" class="btn btn-info">Обновить данные</button>
+            </div>
 
-        <label for="start_date">Дата начала:</label>
-        <input type="date" class="form-control" id="start_date" name="start_date" required>
-        <label for="end_date">Дата конца:</label>
-        <input type="date" class="form-control" id="end_date" name="end_date" required>
-        <div class="button-container"> <!-- Дополнительный контейнер для кнопки -->
-            <button type="submit" class="btn btn-info">Обновить данные</button>
-        </div>
+        </form>
+    </div>
+    <div class="form-openers">
+        <p><strong>Выберите опенеров:</strong></p>
+        <form action="/" method="post">
+            <select id="dataList" name="options" multiple>
+                {% for item in data_list %}
+                <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+            </select>
+            <div class="button-container"> <!-- Дополнительный контейнер для кнопки -->
+                <button type="submit" name="change_openers" class="btn btn-info">Применить фильтр</button>
+            </div>
 
-    </form>
+        </form>
+    </div>
+    <div class="form-numbers">
+        <p><strong>Выберите номера телефонов:</strong></p>
+        <form action="/" method="post">
+            <select id="dataNumbers" name="options" multiple>
+                {% for item in numbers_list %}
+                <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+            </select>
+            <div class="button-container"> <!-- Дополнительный контейнер для кнопки -->
+                <button type="submit" name="change_numbers" class="btn btn-info">Применить фильтр</button>
+            </div>
+
+        </form>
+    </div>
 </div>
+
+
 <hr>
 <h3 align="center">Отчеты</h3>
 <div align="center">
