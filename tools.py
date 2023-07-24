@@ -28,13 +28,23 @@ def table_number():
 # По номерам опенерам
 def table_opener():
     data = prep_data()
+    tmp=data['Откуда'].tolist()
+    print(set(tmp))
+    # table = data.groupby(['Откуда', 'Исходящая линия']).agg({'Звонок': np.sum, 'Дозвон': np.sum})
+    data = data.query('Откуда == ["202 (Андриянова лариса)","418 (Луговский Григорий)"]')
+
     table = data.pivot_table(index=['Откуда', 'Исходящая линия'], values=['Звонок', 'Дозвон'],
                              aggfunc=[np.sum], margins=True, margins_name='Всего')
     # добавляем в нее вычисляемое поле
     table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
     # Применяем форматирование процентного значения к столбцу '%'
     table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
+    # print(table)
+
     return table
+
+
+table_opener()
 
 
 # По времени дня
