@@ -9,6 +9,7 @@ from preparData import filter_numbers, filter_openers, filter_delete
 app = Flask(__name__)
 
 
+
 # TODO надо переделать, чтобы при каждом обновлении он не шел в api
 @app.route("/", methods=["GET", "POST"])
 def index():
