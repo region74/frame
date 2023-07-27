@@ -134,6 +134,12 @@ def table_timecall():
     data = prep_data()
     table = data.pivot_table(index='Откуда', values=['Длительность звонка', 'Время ответа'], aggfunc=[np.mean],
                              margins=True, margins_name='Итого',fill_value=0)
+    # Округляем значения до одного знака после запятой
+    # for col in ['Длительность звонка', 'Время ответа']:
+    #     table[('mean', col)] = table[('mean', col)].apply(lambda x: round(x, 1))
+    #     или
+    for col in ['Длительность звонка', 'Время ответа']:
+        table[('mean', col)] = table[('mean', col)].round(1)
     # Перемещаем итоговую строку вверх
     table = table.reindex(index=['Итого'] + table.index[:-1].tolist())
     return table
