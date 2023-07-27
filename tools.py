@@ -36,11 +36,16 @@ def table_number():
     # делаем сводную таблицу
     table = data.pivot_table(index=['ИсходящаяЛиния', 'Откуда'], values=['Дозвон', 'Звонок'],
                              aggfunc=[np.sum], margins=True, margins_name='Итого')
-    table = table.reindex(index=['Итого'] + table.index[:-1].tolist())
     # добавляем в нее вычисляемое поле
     table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
     # Применяем форматирование процентного значения к столбцу '%'
     table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
+    # Извлекаем строку с итогами
+    total_row = table.iloc[-1].copy()
+    # Удаляем строку с итогами из исходной таблицы
+    table.drop(index='Итого', level='ИсходящаяЛиния', inplace=True)
+    # Вставляем строку с итогами в начало таблицы
+    table = pd.concat([total_row.to_frame().T, table], axis=0)
     return table
 
 
