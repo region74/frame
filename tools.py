@@ -133,7 +133,7 @@ def table_opener_time(options: Union[int, str]):
 def table_timecall():
     data = prep_data()
     table = data.pivot_table(index='Откуда', values=['Длительность звонка', 'Время ответа'], aggfunc=[np.mean],
-                             margins=True, margins_name='Итого')
+                             margins=True, margins_name='Итого',fill_value=0)
     # Перемещаем итоговую строку вверх
     table = table.reindex(index=['Итого'] + table.index[:-1].tolist())
     return table
