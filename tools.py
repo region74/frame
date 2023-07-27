@@ -9,11 +9,6 @@ def format_percent(x):
     return '{:.2%}'.format(x)
 
 
-# Функция для форматирования числа
-def format_num(x):
-    return '{:.2}'.format(x)
-
-
 # для фильтра по опенерам
 def show_openers_list():
     data = prep_data()
@@ -53,7 +48,7 @@ def table_number():
 def table_opener():
     data = prep_data()
     table = data.pivot_table(index=['Откуда', 'ИсходящаяЛиния'], values=['Звонок', 'Дозвон'], aggfunc=[np.sum],
-                             margins=True,margins_name='Итого')
+                             margins=True, margins_name='Итого')
     # добавляем в нее вычисляемое поле
     table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
     # Применяем форматирование процентного значения к столбцу '%'

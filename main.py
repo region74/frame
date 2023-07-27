@@ -12,13 +12,16 @@ app = Flask(__name__)
 class CallsMain(MethodView):
     def get(self):
         return render_template("index.html", data_list=show_openers_list(), numbers_list=show_numbers_list())
+
     def post(self):
         if 'change_data' in request.form:
             start_date = (datetime.strptime(request.form["start_date"], '%Y-%m-%d').date()).strftime('%d-%m-%Y')
             end_date = (datetime.strptime(request.form["end_date"], '%Y-%m-%d').date()).strftime('%d-%m-%Y')
             # Вызываем функцию для получения данных с api
-            start_import(start_date, end_date)
-            message = f'Получены данные звонков с {start_date} по {end_date}'
+            if start_import(start_date, end_date) == 200:
+                message = f'Получены данные звонков с {start_date} по {end_date}'
+            else:
+                message = f'Ошибка получения данных на стороне Sipuni'
             return render_template("index.html", data_list=show_openers_list(), numbers_list=show_numbers_list(),
                                    message=message)
         elif 'change_openers' in request.form:
@@ -101,6 +104,7 @@ class callsMedTime(MethodView):
 class callsSettings(MethodView):
     def get(self):
         return render_template('settings.html', openers=show_openers_list())
+
     def post(self):
         if 'change_settings' in request.form:
             settings_openers(request.form.getlist('options'))
