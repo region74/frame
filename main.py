@@ -3,7 +3,7 @@ from api.load import start_import
 from flask import Flask, render_template, request
 from tools import table_number, table_opener, table_time_day, table_opener_number, table_opener_time, show_openers_list, \
     show_numbers_list, table_timecall
-from preparData import filter_numbers, filter_openers, filter_delete
+from preparData import filter_numbers, filter_openers, filter_delete, settings_openers, settings_delete
 from flask.views import MethodView
 
 app = Flask(__name__)
@@ -99,6 +99,20 @@ class callsMedTime(MethodView):
         return render_template('medtime.html', table=table_html)
 
 
+class callsSettings(MethodView):
+    def get(self):
+        return render_template('settings.html', openers=show_openers_list())
+    def post(self):
+        if 'change_settings' in request.form:
+            settings_openers(request.form.getlist('options'))
+            return render_template("settings.html", openers=show_openers_list())
+        elif 'dell_settings' in request.form:
+            settings_delete()
+            return render_template("settings.html", openers=settings_delete())
+        else:
+            return render_template("settings.html", openers=settings_delete())
+
+
 app.add_url_rule('/', view_func=CallsMain.as_view('calls_main'))
 app.add_url_rule('/numbers', view_func=callsNumbers.as_view('calls_numbers'))
 app.add_url_rule('/openers', view_func=callsOpeners.as_view('calls_openers'))
@@ -106,6 +120,7 @@ app.add_url_rule('/hours', view_func=callsHours.as_view('calls_hours'))
 app.add_url_rule('/openernumber', view_func=callsOpenerNumber.as_view('calls_openernumber'))
 app.add_url_rule('/openerhours', view_func=callsOpnerHour.as_view('calls_openerhour'))
 app.add_url_rule('/medtime', view_func=callsMedTime.as_view('calls_medtime'))
+app.add_url_rule('/settings', view_func=callsSettings.as_view('calls_settings'))
 
 if __name__ == '__main__':
     app.run(debug=True)

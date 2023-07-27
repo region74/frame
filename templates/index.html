@@ -28,6 +28,11 @@
     .button-container {
         text-align: center; /* Центрирование содержимого по горизонтали */
     }
+    .button-settings{
+        text-align: right; /* Центрирование содержимого по горизонтали */
+
+        padding: 20px;
+    }
     .form-data{
     order: 1;
     margin-left: 0px;
@@ -129,9 +134,11 @@
     <a href="{{ url_for('calls_openerhour') }}" class="btn btn-outline-success" role="button" aria-pressed="true">По
         опенерам-часам</a>
     <a href="{{ url_for('calls_medtime') }}" class="btn btn-outline-success" role="button" aria-pressed="true">Среднее время</a>
-
+<hr>
 </div>
-
+<div class="button-settings">
+<a href="{{ url_for('calls_settings') }}" class="btn btn btn-secondary" role="button" aria-pressed="true">Настройки</a>
+</div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>

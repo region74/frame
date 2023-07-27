@@ -9,6 +9,7 @@ async def get_data(data):
     api_url = 'https://sipuni.com/api/statistic/export'
     try:
         response = requests.post(api_url, data=data)
+        print(response.status_code)
         if response.status_code == 200:
             with open(f"api/data.csv", 'wb') as file:
                 file.write(response.content)
