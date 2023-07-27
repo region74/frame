@@ -17,7 +17,7 @@
     }
         /* Стилизация контейнера формы */
     .form-container {
-        max-width: 50%; /* Максимальная ширина контейнера (примерное значение, можно изменить) */
+        max-width: 800px; /* Максимальная ширина контейнера (примерное значение, можно изменить) */
         display: flex;
         margin: 0 auto;
         padding: 20px; /* Добавление внутренних отступов для внешнего вида */
@@ -37,7 +37,6 @@
     order: 1;
     margin-left: 0px;
 
-
     }
     .form-openers{
     order:2;
@@ -51,6 +50,7 @@
     }
      select {
             height: 200px; /* Установите желаемую высоту */
+            width: 220px;
             font-size: 16px; /* Установите желаемый размер шрифта для опций */
      }
 
@@ -100,7 +100,7 @@
         </form>
     </div>
     <div class="form-numbers">
-        <p><strong>Выберите номера телефонов:</strong></p>
+        <p><strong>Выберите номера:</strong></p>
         <form action="{{ url_for('calls_main') }}" method="post">
             <select id="dataNumbers" name="options" multiple>
                 {% for item in numbers_list %}

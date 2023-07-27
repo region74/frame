@@ -12,7 +12,6 @@ app = Flask(__name__)
 class CallsMain(MethodView):
     def get(self):
         return render_template("index.html", data_list=show_openers_list(), numbers_list=show_numbers_list())
-
     def post(self):
         if 'change_data' in request.form:
             start_date = (datetime.strptime(request.form["start_date"], '%Y-%m-%d').date()).strftime('%d-%m-%Y')
