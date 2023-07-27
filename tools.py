@@ -9,6 +9,11 @@ def format_percent(x):
     return '{:.2%}'.format(x)
 
 
+# Функция для форматирования числа
+def format_num(x):
+    return '{:.2}'.format(x)
+
+
 # для фильтра по опенерам
 def show_openers_list():
     data = prep_data()
@@ -114,3 +119,9 @@ def table_opener_time(options: Union[int, str]):
         # сводная от сводной, чтобы имея проценты разбить по номерам в столбцах
         result_table = table.pivot_table(index='Откуда', columns='Часы', fill_value=0)
         return result_table
+
+# Среднее время дозвонов
+def table_timecall():
+    data = prep_data()
+    table = data.pivot_table(index='Откуда', values=['Длительность звонка', 'Время ответа'], aggfunc=[np.mean],margins=True)
+    return table

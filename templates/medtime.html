@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Среднее время</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        /* Добавляем стили для разных цветов фона */
+        td.red {
+            background-color: red;
+        }
+
+        td.orange {
+            background-color: orange;
+        }
+
+        td.green {
+            background-color: green;
+        }
+        td.light-gray {
+            background-color: lightgray;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<h1 align="center">Среднее время</h1>
+<a href="{{ url_for('calls_main') }}" class="btn btn-outline-success" role="button" aria-pressed="true">На главную</a>
+<!-- Вставляем таблицу с помощью переменной table -->
+{{ table | safe }}
+
+</body>
+</html>
