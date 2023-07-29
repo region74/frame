@@ -4,6 +4,7 @@ file_path = 'api/data.csv'
 filter_open: list = []
 filter_num: list = []
 settings_open: list = []
+data_range = ''
 
 
 # Функция подготовки базовой таблицы для всех срезов
@@ -63,5 +64,15 @@ def settings_delete():
     data_set = data['Откуда'].tolist()
     result = list(set(data_set))
     settings_open = result
-    filter_open=result
+    filter_open = result
     return settings_open
+
+
+def set_datarange(data):
+    global data_range
+    data_range = data
+
+
+def show_datarange():
+    global data_range
+    return data_range

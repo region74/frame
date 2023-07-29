@@ -62,6 +62,11 @@
 <body>
 <br>
 <h1 align="center">Аналитика звонков</h1>
+<div align="center">{%if datarange%}
+
+{{datarange}}
+{%endif%}
+</div>
 {% if message %}
 <div class="alert alert-success alert-dismissible fade show" role="alert">
     <p align="center">{{ message }}</p>
