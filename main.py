@@ -1,6 +1,6 @@
 from datetime import datetime
 from api.load import start_import
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from tools import table_number, table_opener, table_time_day, table_opener_number, table_opener_time, show_openers_list, \
     show_numbers_list, table_timecall
 from preparData import filter_numbers, filter_openers, filter_delete, settings_openers, settings_delete
@@ -26,15 +26,15 @@ class CallsMain(MethodView):
                                    message=message)
         elif 'change_openers' in request.form:
             filter_openers(request.form.getlist('options'))
-            return render_template("index.html", data_list=show_openers_list(), numbers_list=show_numbers_list())
+            return redirect(url_for('calls_main'))
         elif 'change_numbers' in request.form:
             filter_numbers(request.form.getlist('options'))
-            return render_template("index.html", data_list=show_openers_list(), numbers_list=show_numbers_list())
+            return redirect(url_for('calls_main'))
         elif 'dell_filters' in request.form:
             filter_delete()
-            return render_template("index.html", data_list=show_openers_list(), numbers_list=show_numbers_list())
+            return redirect(url_for('calls_main'))
         else:
-            return render_template("index.html", data_list=show_openers_list(), numbers_list=show_numbers_list())
+            return redirect(url_for('calls_main'))
 
 
 class callsNumbers(MethodView):
@@ -55,7 +55,23 @@ class callsHours(MethodView):
     def get(self):
         pivot_table = table_time_day()
         table_html = pivot_table.to_html(classes='table table-striped table-bordered')
-        return render_template('hours.html', table=table_html)
+        return render_template('hours.html', table=table_html, data_list=show_openers_list(),
+                               numbers_list=show_numbers_list())
+
+    def post(self):
+        pivot_table = table_time_day()
+        table_html = pivot_table.to_html(classes='table table-striped table-bordered')
+        if 'change_openers' in request.form:
+            filter_openers(request.form.getlist('options'))
+            return redirect(url_for('calls_hours'))
+        elif 'change_numbers' in request.form:
+            filter_numbers(request.form.getlist('options'))
+            return redirect(url_for('calls_hours'))
+        elif 'dell_filters' in request.form:
+            filter_delete()
+            return redirect(url_for('calls_hours'))
+        else:
+            return redirect(url_for('calls_main'))
 
 
 class callsOpenerNumber(MethodView):
