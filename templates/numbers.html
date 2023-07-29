@@ -89,8 +89,6 @@
             width: 220px;
             font-size: 16px; /* Установите желаемый размер шрифта для опций */
      }
-
-
 </style>
 <body>
 <h1 align="center">По номерам телефона</h1>
@@ -109,7 +107,6 @@
             <div class="button-container"> <!-- Дополнительный контейнер для кнопки -->
                 <button type="submit" name="go_main" class="btn btn-outline-success">На главную</button>
             </div>
-
         </form>
     </div>
     <div class="form-numbers">
@@ -127,15 +124,12 @@
             <div class="button-container"> <!-- Дополнительный контейнер для кнопки -->
                 <button type="submit" name="dell_filters" class="btn btn-warning">Сбросить фильтры</button>
             </div>
-
-
         </form>
     </div>
 </div>
 <br>
 <!-- Вставляем таблицу с помощью переменной table -->
 {{ table | safe }}
-
 <script>
     // JavaScript код для изменения цвета фона ячеек с процентами
     // Ваш шаблон должен иметь класс 'table' у элемента <table>

@@ -35,14 +35,61 @@
         td.white {
             background-color: #fffaf0;
         }
-            button.btn-info {
+        input.form-control {
+        max-width: 400px;
+        padding: 8px;
+        }
+        button.btn-info {
+            margin-top: 10px;
+        }
+        button.btn-outline-info {
         margin-top: 10px;
-        margin-bottom: 10px;
-    }
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        }
+
+        button.btn-warning {
+            margin-top: 10px;
+        }
+        button.btn-outline-success {
+            margin-top: 35px;
+
+        }
+            /* Стилизация контейнера формы */
+        .form-container {
+            max-width: 560px; /* Максимальная ширина контейнера (примерное значение, можно изменить) */
+            display: flex;
+            margin: 0 auto;
+            padding: 20px; /* Добавление внутренних отступов для внешнего вида */
+            border: 1px solid #ccc; /* Параметры границы для контейнера (необязательно) */
+
+        }
             /* Стилизация контейнера кнопки */
-    .button-container {
-        text-align: center; /* Центрирование содержимого по горизонтали */
-    }
+        .button-container {
+            text-align: center; /* Центрирование содержимого по горизонтали */
+        }
+        .button-settings{
+            text-align: right; /* Центрирование содержимого по горизонтали */
+            padding: 20px;
+        }
+
+        }
+        .form-openers{
+        order:1;
+        margin-left: 40px;
+
+        }
+        .form-numbers{
+        order:2;
+        margin-left: 40px;
+
+        }
+         select {
+                height: 200px; /* Установите желаемую высоту */
+                width: 240px;
+                font-size: 16px; /* Установите желаемый размер шрифта для опций */
+         }
 
 
 
@@ -50,16 +97,48 @@
 </head>
 <body>
 <h1 align="center">Опенер-номер (% дозвонов)</h1>
-
-<form action="{{ url_for('calls_openernumber') }}" method="post">
-
-    <div class="button-container">
-        <a href="{{ url_for('calls_main') }}" class="btn btn-outline-success" role="button" aria-pressed="true">На главную</a><!-- Дополнительный контейнер для кнопки -->
-        <button type="submit" class="btn btn-info" id="choice" name="choice" value="choice1">Переключиться на количество
-            звонков
-        </button>
+<div class="form-container">
+    <div class="form-openers">
+        <p><strong>Выберите опенеров:</strong></p>
+        <form action="{{ url_for('calls_openernumber') }}" method="post">
+            <select id="dataList" name="options" multiple>
+                {% for item in data_list %}
+                <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+            </select>
+            <div class="button-container"> <!-- Дополнительный контейнер для кнопки -->
+                <button type="submit" name="change_openers" class="btn btn-info">Применить фильтр</button>
+            </div>
+            <div class="button-container"> <!-- Дополнительный контейнер для кнопки -->
+                <button type="submit" name="go_main" class="btn btn-outline-success">На главную</button>
+            </div>
+        </form>
     </div>
-
+    <div class="form-numbers">
+        <p><strong>Выберите номера:</strong></p>
+        <form action="{{ url_for('calls_openernumber') }}" method="post">
+            <select id="dataNumbers" name="options" multiple>
+                {% for item in numbers_list %}
+                <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+            </select>
+            <div class="button-container"> <!-- Дополнительный контейнер для кнопки -->
+                <button type="submit" name="change_numbers" class="btn btn-info">Применить фильтр</button>
+            </div>
+            <br>
+            <div class="button-container"> <!-- Дополнительный контейнер для кнопки -->
+                <button type="submit" name="dell_filters" class="btn btn-warning">Сбросить фильтры</button>
+            </div>
+        </form>
+    </div>
+</div>
+<form action="{{ url_for('calls_openernumber') }}" method="post">
+    <button type="submit" class="btn btn-outline-info" id="choice" name="choice" value="choice1">Переключиться
+        на
+        количество
+        звонков
+    </button>
+    <br>
 </form>
 <!-- Вставляем таблицу с помощью переменной table -->
 {{ table | safe }}
