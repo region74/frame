@@ -48,7 +48,21 @@ class callsOpeners(MethodView):
     def get(self):
         pivot_table = table_opener()
         table_html = pivot_table.to_html(classes='table table-striped table-bordered')
-        return render_template('openers.html', table=table_html)
+        return render_template('openers.html', table=table_html,data_list=show_openers_list(), numbers_list=show_numbers_list())
+    def post(self):
+        pivot_table = table_opener()
+        table_html = pivot_table.to_html(classes='table table-striped table-bordered')
+        if 'change_openers' in request.form:
+            filter_openers(request.form.getlist('options'))
+            return redirect(url_for('calls_openers'))
+        elif 'change_numbers' in request.form:
+            filter_numbers(request.form.getlist('options'))
+            return redirect(url_for('calls_openers'))
+        elif 'dell_filters' in request.form:
+            filter_delete()
+            return redirect(url_for('calls_openers'))
+        else:
+            return redirect(url_for('calls_main'))
 
 
 class callsHours(MethodView):
@@ -57,7 +71,6 @@ class callsHours(MethodView):
         table_html = pivot_table.to_html(classes='table table-striped table-bordered')
         return render_template('hours.html', table=table_html, data_list=show_openers_list(),
                                numbers_list=show_numbers_list())
-
     def post(self):
         pivot_table = table_time_day()
         table_html = pivot_table.to_html(classes='table table-striped table-bordered')
