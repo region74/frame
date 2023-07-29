@@ -119,8 +119,6 @@ class callsOpenerNumber(MethodView):
             return render_template('openernumber2.html', table=table_html, data_list=show_openers_list(),
                                    numbers_list=show_numbers_list())
         if value == 'choice2':
-            pivot_table = table_opener_number(2)
-            table_html = pivot_table.to_html(classes='table table-striped table-bordered')
             return redirect(url_for('calls_openernumber'))
         if 'change_openers' in request.form:
             filter_openers(request.form.getlist('options'))
@@ -150,8 +148,6 @@ class callsOpenerHour(MethodView):
             return render_template('openerhours2.html', table=table_html, data_list=show_openers_list(),
                                    numbers_list=show_numbers_list())
         if value == 'choice2':
-            pivot_table = table_opener_time(2)
-            table_html = pivot_table.to_html(classes='table table-striped table-bordered')
             return redirect(url_for('calls_openerhour'))
         if 'change_openers' in request.form:
             filter_openers(request.form.getlist('options'))
