@@ -5,67 +5,79 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
+        .table-container {
+        overflow-y: auto;
+        max-height: 400px; /* Укажите максимальную высоту контейнера, чтобы при прокрутке появлялась полоса прокрутки */
+        }
+
         table {
-            border-collapse: collapse;
-            width: 100%;
+        width: 100%; /* Обязательно укажите ширину таблицы, чтобы она занимала всю доступную ширину контейнера */
+        border-collapse: collapse;
+        }
+
+        thead {
+        position: sticky;
+        top: 0;
+        background-color: #f1f1f1; /* Цвет фона для заголовка */
+        /* Другие стили для заголовка, например, шрифт, цвет текста и т. д. */
         }
 
         th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
         }
 
         tr:hover {
-            background-color: #f2f2f2;
+        background-color: #f2f2f2;
         }
 
         /* Добавляем стили для разных цветов фона */
         td.red {
-            background-color: red;
+        background-color: red;
         }
 
         td.orange {
-            background-color: orange;
+        background-color: orange;
         }
 
         td.green {
-            background-color: green;
+        background-color: green;
         }
         td.light-gray {
-            background-color: lightgray;
+        background-color: lightgray;
         }
 
         input.form-control {
-            max-width: 400px;
-            padding: 8px;
+        max-width: 400px;
+        padding: 8px;
         }
         button.btn-info {
-            margin-top: 10px;
+        margin-top: 10px;
         }
         button.btn-warning {
-            margin-top: 10px;
+        margin-top: 10px;
         }
         button.btn-outline-success {
-            margin-top: 35px;
+        margin-top: 35px;
 
         }
-            /* Стилизация контейнера формы */
+        /* Стилизация контейнера формы */
         .form-container {
-            max-width: 550px; /* Максимальная ширина контейнера (примерное значение, можно изменить) */
-            display: flex;
-            margin: 0 auto;
-            padding: 20px; /* Добавление внутренних отступов для внешнего вида */
-            border: 1px solid #ccc; /* Параметры границы для контейнера (необязательно) */
+        max-width: 550px; /* Максимальная ширина контейнера (примерное значение, можно изменить) */
+        display: flex;
+        margin: 0 auto;
+        padding: 20px; /* Добавление внутренних отступов для внешнего вида */
+        border: 1px solid #ccc; /* Параметры границы для контейнера (необязательно) */
 
         }
-            /* Стилизация контейнера кнопки */
+        /* Стилизация контейнера кнопки */
         .button-container {
-            text-align: center; /* Центрирование содержимого по горизонтали */
+        text-align: center; /* Центрирование содержимого по горизонтали */
         }
         .button-settings{
-            text-align: right; /* Центрирование содержимого по горизонтали */
-            padding: 20px;
+        text-align: right; /* Центрирование содержимого по горизонтали */
+        padding: 20px;
         }
 
         }
@@ -79,14 +91,11 @@
         margin-left: 40px;
 
         }
-         select {
-                height: 200px; /* Установите желаемую высоту */
-                width: 220px;
-                font-size: 16px; /* Установите желаемый размер шрифта для опций */
-         }
-
-
-
+        select {
+        height: 200px; /* Установите желаемую высоту */
+        width: 220px;
+        font-size: 16px; /* Установите желаемый размер шрифта для опций */
+        }
     </style>
 </head>
 <body>
@@ -131,7 +140,12 @@
 </div>
 <br>
 <!-- Вставляем таблицу с помощью переменной table -->
-{{ table | safe }}
+<div class="table-container">
+    <table>
+        <!-- Здесь должны быть данные, которые передаются в переменной `table` -->
+        {{ table | safe }}
+    </table>
+</div>
 
 <script>
     // JavaScript код для изменения цвета фона ячеек с процентами
@@ -159,10 +173,6 @@
             }
         }
     });
-
-
-
-
 
 
 </script>

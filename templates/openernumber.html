@@ -5,42 +5,54 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
+        .table-container {
+        overflow-y: auto;
+        max-height: 400px; /* Укажите максимальную высоту контейнера, чтобы при прокрутке появлялась полоса прокрутки */
+        }
+
         table {
-            border-collapse: collapse;
-            width: 100%;
+        width: 100%; /* Обязательно укажите ширину таблицы, чтобы она занимала всю доступную ширину контейнера */
+        border-collapse: collapse;
+        }
+
+        thead {
+        position: sticky;
+        top: 0;
+        background-color: #f1f1f1; /* Цвет фона для заголовка */
+        /* Другие стили для заголовка, например, шрифт, цвет текста и т. д. */
         }
 
         th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
         }
 
         tr:hover {
-            background-color: #f2f2f2;
+        background-color: #f2f2f2;
         }
 
         /* Добавляем стили для разных цветов фона */
         td.red {
-            background-color: #fa8072;
+        background-color: #fa8072;
         }
 
         td.yellow {
-            background-color: #ffa500;
+        background-color: #ffa500;
         }
 
         td.green {
-            background-color: #98fb98;
+        background-color: #98fb98;
         }
         td.white {
-            background-color: #fffaf0;
+        background-color: #fffaf0;
         }
         input.form-control {
         max-width: 400px;
         padding: 8px;
         }
         button.btn-info {
-            margin-top: 10px;
+        margin-top: 10px;
         }
         button.btn-outline-info {
         margin-top: 10px;
@@ -50,28 +62,28 @@
         }
 
         button.btn-warning {
-            margin-top: 10px;
+        margin-top: 10px;
         }
         button.btn-outline-success {
-            margin-top: 35px;
+        margin-top: 35px;
 
         }
-            /* Стилизация контейнера формы */
+        /* Стилизация контейнера формы */
         .form-container {
-            max-width: 560px; /* Максимальная ширина контейнера (примерное значение, можно изменить) */
-            display: flex;
-            margin: 0 auto;
-            padding: 20px; /* Добавление внутренних отступов для внешнего вида */
-            border: 1px solid #ccc; /* Параметры границы для контейнера (необязательно) */
+        max-width: 560px; /* Максимальная ширина контейнера (примерное значение, можно изменить) */
+        display: flex;
+        margin: 0 auto;
+        padding: 20px; /* Добавление внутренних отступов для внешнего вида */
+        border: 1px solid #ccc; /* Параметры границы для контейнера (необязательно) */
 
         }
-            /* Стилизация контейнера кнопки */
+        /* Стилизация контейнера кнопки */
         .button-container {
-            text-align: center; /* Центрирование содержимого по горизонтали */
+        text-align: center; /* Центрирование содержимого по горизонтали */
         }
         .button-settings{
-            text-align: right; /* Центрирование содержимого по горизонтали */
-            padding: 20px;
+        text-align: right; /* Центрирование содержимого по горизонтали */
+        padding: 20px;
         }
 
         }
@@ -85,13 +97,11 @@
         margin-left: 40px;
 
         }
-         select {
-                height: 200px; /* Установите желаемую высоту */
-                width: 240px;
-                font-size: 16px; /* Установите желаемый размер шрифта для опций */
-         }
-
-
+        select {
+            height: 200px; /* Установите желаемую высоту */
+            width: 240px;
+            font-size: 16px; /* Установите желаемый размер шрифта для опций */
+        }
 
     </style>
 </head>
@@ -141,48 +151,47 @@
     <br>
 </form>
 <!-- Вставляем таблицу с помощью переменной table -->
-{{ table | safe }}
+<div class="table-container">
+    <table>
+        <!-- Здесь должны быть данные, которые передаются в переменной `table` -->
+        {{ table | safe }}
+    </table>
+</div>
 
 <script>
-        // JavaScript код для изменения цвета фона ячеек с процентами и звонками и преобразования в процентный формат
-        // Ваш шаблон должен иметь класс 'table' у элемента <table>
-        document.addEventListener('DOMContentLoaded', function() {
-            var table = document.querySelector('.table');
-            var rows = table.querySelectorAll('tbody tr');
+    // JavaScript код для изменения цвета фона ячеек с процентами и звонками и преобразования в процентный формат
+    // Ваш шаблон должен иметь класс 'table' у элемента <table>
+    document.addEventListener('DOMContentLoaded', function() {
+        var table = document.querySelector('.table');
+        var rows = table.querySelectorAll('tbody tr');
 
-            for (var i = 0; i < rows.length; i++) {
-                var cells = rows[i].querySelectorAll('td');
+        for (var i = 0; i < rows.length; i++) {
+            var cells = rows[i].querySelectorAll('td');
 
-                for (var j = 0; j < cells.length; j++) {
-                    var cellValue = parseFloat(cells[j].innerText);
+            for (var j = 0; j < cells.length; j++) {
+                var cellValue = parseFloat(cells[j].innerText);
 
-                    if (!isNaN(cellValue)) {
-                        var percentValue = (cellValue * 100).toFixed(0); // Округляем до 0 десятичных знаков
-                        cells[j].innerText = percentValue + '%';
+                if (!isNaN(cellValue)) {
+                    var percentValue = (cellValue * 100).toFixed(0); // Округляем до 0 десятичных знаков
+                    cells[j].innerText = percentValue + '%';
 
-                        if (cellValue >=0.01 && cellValue < 0.32 ) {
-                            cells[j].classList.add('red'); // Добавляем класс 'red' для красного фона
-                            cells[j].classList.remove('yellow', 'green'); // Удаляем классы для других цветов
-                        } else if (cellValue >= 0.32 && cellValue <= 0.36) {
-                            cells[j].classList.add('yellow'); // Добавляем класс 'yellow' для желтого фона
-                            cells[j].classList.remove('red', 'green'); // Удаляем классы для других цветов
-                        } else if (cellValue >= 0.37 && cellValue <= 1) {
-                            cells[j].classList.add('green'); // Добавляем класс 'yellow' для желтого фона
-                            cells[j].classList.remove('red', 'yellow'); // Удаляем классы для других цветов
-                        } else {
-                            cells[j].classList.add('white'); // Добавляем класс 'green' для зеленого фона
-                            cells[j].classList.remove('red', 'yellow','green'); // Удаляем классы для других цветов
-                        }
+                    if (cellValue >=0.01 && cellValue < 0.32 ) {
+                        cells[j].classList.add('red'); // Добавляем класс 'red' для красного фона
+                        cells[j].classList.remove('yellow', 'green'); // Удаляем классы для других цветов
+                    } else if (cellValue >= 0.32 && cellValue <= 0.36) {
+                        cells[j].classList.add('yellow'); // Добавляем класс 'yellow' для желтого фона
+                        cells[j].classList.remove('red', 'green'); // Удаляем классы для других цветов
+                    } else if (cellValue >= 0.37 && cellValue <= 1) {
+                        cells[j].classList.add('green'); // Добавляем класс 'yellow' для желтого фона
+                        cells[j].classList.remove('red', 'yellow'); // Удаляем классы для других цветов
+                    } else {
+                        cells[j].classList.add('white'); // Добавляем класс 'green' для зеленого фона
+                        cells[j].classList.remove('red', 'yellow','green'); // Удаляем классы для других цветов
                     }
                 }
             }
-        });
-
-
-
-
-
-
+        }
+    });
 
 
 </script>

@@ -7,31 +7,30 @@
 
 </head>
 <style>
-
     input.form-control {
-        max-width: 400px;
-        padding: 8px;
+    max-width: 400px;
+    padding: 8px;
     }
     button.btn-info {
-        margin-top: 10px;
+    margin-top: 10px;
     }
-        /* Стилизация контейнера формы */
+    /* Стилизация контейнера формы */
     .form-container {
-        max-width: 800px; /* Максимальная ширина контейнера (примерное значение, можно изменить) */
-        display: flex;
-        margin: 0 auto;
-        padding: 20px; /* Добавление внутренних отступов для внешнего вида */
-        border: 1px solid #ccc; /* Параметры границы для контейнера (необязательно) */
+    max-width: 800px; /* Максимальная ширина контейнера (примерное значение, можно изменить) */
+    display: flex;
+    margin: 0 auto;
+    padding: 20px; /* Добавление внутренних отступов для внешнего вида */
+    border: 1px solid #ccc; /* Параметры границы для контейнера (необязательно) */
 
     }
-        /* Стилизация контейнера кнопки */
+    /* Стилизация контейнера кнопки */
     .button-container {
-        text-align: center; /* Центрирование содержимого по горизонтали */
+    text-align: center; /* Центрирование содержимого по горизонтали */
     }
     .button-settings{
-        text-align: right; /* Центрирование содержимого по горизонтали */
+    text-align: right; /* Центрирование содержимого по горизонтали */
 
-        padding: 20px;
+    padding: 20px;
     }
     .form-data{
     order: 1;
@@ -48,24 +47,19 @@
     margin-left: 40px;
 
     }
-     select {
-            height: 200px; /* Установите желаемую высоту */
-            width: 220px;
-            font-size: 16px; /* Установите желаемый размер шрифта для опций */
-     }
-
-
-
-
-
+    select {
+        height: 200px; /* Установите желаемую высоту */
+        width: 220px;
+        font-size: 16px; /* Установите желаемый размер шрифта для опций */
+    }
 </style>
 <body>
 <br>
 <h1 align="center">Аналитика звонков</h1>
 <div align="center">{%if datarange%}
 
-{{datarange}}
-{%endif%}
+    {{datarange}}
+    {%endif%}
 </div>
 {% if message %}
 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -138,11 +132,13 @@
         опенерам-номерам</a>
     <a href="{{ url_for('calls_openerhour') }}" class="btn btn-outline-success" role="button" aria-pressed="true">По
         опенерам-часам</a>
-    <a href="{{ url_for('calls_medtime') }}" class="btn btn-outline-success" role="button" aria-pressed="true">Среднее время</a>
-<hr>
+    <a href="{{ url_for('calls_medtime') }}" class="btn btn-outline-success" role="button" aria-pressed="true">Среднее
+        время</a>
+    <hr>
 </div>
 <div class="button-settings">
-<a href="{{ url_for('calls_settings') }}" class="btn btn btn-secondary" role="button" aria-pressed="true">Настройки</a>
+    <a href="{{ url_for('calls_settings') }}" class="btn btn btn-secondary" role="button"
+       aria-pressed="true">Настройки</a>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
