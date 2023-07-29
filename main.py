@@ -41,8 +41,19 @@ class callsNumbers(MethodView):
     def get(self):
         pivot_table = table_number()
         table_html = pivot_table.to_html(classes='table table-striped table-bordered')
-        return render_template('numbers.html', table=table_html)
-
+        return render_template('numbers.html', table=table_html,data_list=show_openers_list(), numbers_list=show_numbers_list())
+    def post(self):
+        if 'change_openers' in request.form:
+            filter_openers(request.form.getlist('options'))
+            return redirect(url_for('calls_numbers'))
+        elif 'change_numbers' in request.form:
+            filter_numbers(request.form.getlist('options'))
+            return redirect(url_for('calls_numbers'))
+        elif 'dell_filters' in request.form:
+            filter_delete()
+            return redirect(url_for('calls_numbers'))
+        else:
+            return redirect(url_for('calls_main'))
 
 class callsOpeners(MethodView):
     def get(self):
@@ -50,8 +61,6 @@ class callsOpeners(MethodView):
         table_html = pivot_table.to_html(classes='table table-striped table-bordered')
         return render_template('openers.html', table=table_html,data_list=show_openers_list(), numbers_list=show_numbers_list())
     def post(self):
-        pivot_table = table_opener()
-        table_html = pivot_table.to_html(classes='table table-striped table-bordered')
         if 'change_openers' in request.form:
             filter_openers(request.form.getlist('options'))
             return redirect(url_for('calls_openers'))
@@ -72,8 +81,6 @@ class callsHours(MethodView):
         return render_template('hours.html', table=table_html, data_list=show_openers_list(),
                                numbers_list=show_numbers_list())
     def post(self):
-        pivot_table = table_time_day()
-        table_html = pivot_table.to_html(classes='table table-striped table-bordered')
         if 'change_openers' in request.form:
             filter_openers(request.form.getlist('options'))
             return redirect(url_for('calls_hours'))
@@ -94,6 +101,7 @@ class callsOpenerNumber(MethodView):
         return render_template('openernumber.html', table=table_html)
 
     def post(self):
+
         value = request.form.get('choice')
         if value == 'choice1':
             pivot_table = table_opener_number(1)
@@ -103,6 +111,7 @@ class callsOpenerNumber(MethodView):
             pivot_table = table_opener_number(2)
             table_html = pivot_table.to_html(classes='table table-striped table-bordered')
             return render_template('openernumber.html', table=table_html)
+
 
 
 class callsOpnerHour(MethodView):
@@ -127,7 +136,20 @@ class callsMedTime(MethodView):
     def get(self):
         pivot_table = table_timecall()
         table_html = pivot_table.to_html(classes='table table-striped table-bordered')
-        return render_template('medtime.html', table=table_html)
+        return render_template('medtime.html', table=table_html,data_list=show_openers_list(), numbers_list=show_numbers_list())
+    def post(self):
+        if 'change_openers' in request.form:
+            filter_openers(request.form.getlist('options'))
+            return redirect(url_for('calls_medtime'))
+        elif 'change_numbers' in request.form:
+            filter_numbers(request.form.getlist('options'))
+            return redirect(url_for('calls_medtime'))
+        elif 'dell_filters' in request.form:
+            filter_delete()
+            return redirect(url_for('calls_medtime'))
+        else:
+            return redirect(url_for('calls_main'))
+
 
 
 class callsSettings(MethodView):
