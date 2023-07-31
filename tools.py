@@ -6,7 +6,7 @@ from preparData import prep_data
 
 # Функция для форматирования числа в процентный формат
 def format_percent(x):
-    return '{:.2%}'.format(x)
+    return '{:.1%}'.format(x)
 
 
 # для фильтра по опенерам
@@ -88,7 +88,6 @@ def table_time_day():
     table = data.pivot_table(index='Часы', values=['Звонок', 'Дозвон'], aggfunc=[np.sum], margins=True,
                              margins_name='Итого')
     table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
-    table = table.drop(columns=('sum', 'Дозвон'))
     # Применяем форматирование процентного значения к столбцу '%'
     table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
     table = table.reindex(index=['Итого'] + table.index[:-1].tolist())
