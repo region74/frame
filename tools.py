@@ -44,6 +44,21 @@ def table_number():
     return table
 
 
+def table_number_simple():
+    data = prep_data()
+    # делаем сводную таблицу
+    table = data.pivot_table(index='ИсходящаяЛиния', values=['Дозвон', 'Звонок'],
+                             aggfunc=[np.sum], margins=True, margins_name='Итого')
+    # добавляем в нее вычисляемое поле
+    table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
+    # Применяем форматирование процентного значения к столбцу '%'
+    table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
+    # Извлекаем строку с итогами
+    total_row = table.iloc[-1].copy()
+    table = table.reindex(index=['Итого'] + table.index[:-1].tolist())
+    return table
+
+
 # По номерам опенерам
 def table_opener():
     data = prep_data()
@@ -133,7 +148,7 @@ def table_opener_time(options: Union[int, str]):
 def table_timecall():
     data = prep_data()
     table = data.pivot_table(index='Откуда', values=['Длительность звонка', 'Время ответа'], aggfunc=[np.mean],
-                             margins=True, margins_name='Итого',fill_value=0)
+                             margins=True, margins_name='Итого', fill_value=0)
     # Округляем значения до одного знака после запятой
     # for col in ['Длительность звонка', 'Время ответа']:
     #     table[('mean', col)] = table[('mean', col)].apply(lambda x: round(x, 1))
