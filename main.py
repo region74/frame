@@ -1,4 +1,6 @@
 from datetime import datetime
+from typing import Union
+
 from api.load import start_import
 from flask import Flask, render_template, request, redirect, url_for, session
 from tools import table_number, table_opener, table_time_day, table_opener_number, table_opener_time, show_openers_list, \
@@ -44,14 +46,25 @@ class CallsMain(MethodView):
 
 class callsNumbers(MethodView):
     def get(self):
+        message = request.args.get('message', '')
         type_table = session.get('type_table')
         pivot_table = table_number(type_table)
         table_html = pivot_table.to_html(classes='table table-striped table-bordered')
         return render_template('numbers.html', table=table_html, data_list=show_openers_list(),
-                               numbers_list=show_numbers_list())
+                               numbers_list=show_numbers_list(), message=message, datarange=show_datarange())
 
     def post(self):
-        if 'change_openers' in request.form:
+        if 'change_data' in request.form:
+            start_date = (datetime.strptime(request.form["start_date"], '%Y-%m-%d').date()).strftime('%d-%m-%Y')
+            end_date = (datetime.strptime(request.form["end_date"], '%Y-%m-%d').date()).strftime('%d-%m-%Y')
+            data_range = f'Текущий диапазон данных: с {start_date} по {end_date}'
+            set_datarange(data_range)
+            if start_import(start_date, end_date) == 200:
+                message = f'Получены данные звонков с {start_date} по {end_date}'
+            else:
+                message = f'Ошибка получения данных на стороне Sipuni'
+            return redirect(url_for('calls_numbers', message=message))
+        elif 'change_openers' in request.form:
             filter_openers(request.form.getlist('options'))
             return redirect(url_for('calls_numbers'))
         elif 'change_numbers' in request.form:
@@ -74,14 +87,25 @@ class callsNumbers(MethodView):
 
 class callsOpeners(MethodView):
     def get(self):
+        message = request.args.get('message', '')
         type_table = session.get('type_table')
         pivot_table = table_opener(type_table)
         table_html = pivot_table.to_html(classes='table table-striped table-bordered')
         return render_template('openers.html', table=table_html, data_list=show_openers_list(),
-                               numbers_list=show_numbers_list())
+                               numbers_list=show_numbers_list(), message=message, datarange=show_datarange())
 
     def post(self):
-        if 'change_openers' in request.form:
+        if 'change_data' in request.form:
+            start_date = (datetime.strptime(request.form["start_date"], '%Y-%m-%d').date()).strftime('%d-%m-%Y')
+            end_date = (datetime.strptime(request.form["end_date"], '%Y-%m-%d').date()).strftime('%d-%m-%Y')
+            data_range = f'Текущий диапазон данных: с {start_date} по {end_date}'
+            set_datarange(data_range)
+            if start_import(start_date, end_date) == 200:
+                message = f'Получены данные звонков с {start_date} по {end_date}'
+            else:
+                message = f'Ошибка получения данных на стороне Sipuni'
+            return redirect(url_for('calls_openers', message=message))
+        elif 'change_openers' in request.form:
             filter_openers(request.form.getlist('options'))
             return redirect(url_for('calls_openers'))
         elif 'change_numbers' in request.form:
@@ -104,13 +128,24 @@ class callsOpeners(MethodView):
 
 class callsHours(MethodView):
     def get(self):
+        message = request.args.get('message', '')
         pivot_table = table_time_day()
         table_html = pivot_table.to_html(classes='table table-striped table-bordered')
         return render_template('hours.html', table=table_html, data_list=show_openers_list(),
-                               numbers_list=show_numbers_list())
+                               numbers_list=show_numbers_list(), datarange=show_datarange(), message=message)
 
     def post(self):
-        if 'change_openers' in request.form:
+        if 'change_data' in request.form:
+            start_date = (datetime.strptime(request.form["start_date"], '%Y-%m-%d').date()).strftime('%d-%m-%Y')
+            end_date = (datetime.strptime(request.form["end_date"], '%Y-%m-%d').date()).strftime('%d-%m-%Y')
+            data_range = f'Текущий диапазон данных: с {start_date} по {end_date}'
+            set_datarange(data_range)
+            if start_import(start_date, end_date) == 200:
+                message = f'Получены данные звонков с {start_date} по {end_date}'
+            else:
+                message = f'Ошибка получения данных на стороне Sipuni'
+            return redirect(url_for('calls_hours', message=message))
+        elif 'change_openers' in request.form:
             filter_openers(request.form.getlist('options'))
             return redirect(url_for('calls_hours'))
         elif 'change_numbers' in request.form:
@@ -183,13 +218,24 @@ class callsOpenerHour(MethodView):
 
 class callsMedTime(MethodView):
     def get(self):
+        message = request.args.get('message', '')
         pivot_table = table_timecall()
         table_html = pivot_table.to_html(classes='table table-striped table-bordered')
         return render_template('medtime.html', table=table_html, data_list=show_openers_list(),
-                               numbers_list=show_numbers_list())
+                               numbers_list=show_numbers_list(), message=message, datarange=show_datarange())
 
     def post(self):
-        if 'change_openers' in request.form:
+        if 'change_data' in request.form:
+            start_date = (datetime.strptime(request.form["start_date"], '%Y-%m-%d').date()).strftime('%d-%m-%Y')
+            end_date = (datetime.strptime(request.form["end_date"], '%Y-%m-%d').date()).strftime('%d-%m-%Y')
+            data_range = f'Текущий диапазон данных: с {start_date} по {end_date}'
+            set_datarange(data_range)
+            if start_import(start_date, end_date) == 200:
+                message = f'Получены данные звонков с {start_date} по {end_date}'
+            else:
+                message = f'Ошибка получения данных на стороне Sipuni'
+            return redirect(url_for('calls_medtime', message=message))
+        elif 'change_openers' in request.form:
             filter_openers(request.form.getlist('options'))
             return redirect(url_for('calls_medtime'))
         elif 'change_numbers' in request.form:
