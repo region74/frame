@@ -96,6 +96,12 @@
         margin-left: 40px;
 
         }
+        button.btn-outline-info {
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        }
         select {
             height: 200px; /* Установите желаемую высоту */
             width: 220px;
@@ -141,6 +147,10 @@
         </form>
     </div>
 </div>
+<form action="{{ url_for('calls_numbers') }}" method="post">
+    <button type="submit" class="btn btn-outline-info" name="changetype">Сменить вид: простой/детальный
+    </button>
+</form>
 <br>
 <!-- Вставляем таблицу с помощью переменной table -->
 <div class="table-container">

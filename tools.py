@@ -26,55 +26,65 @@ def show_numbers_list():
 
 
 # По номера телефона
-def table_number():
+def table_number(options: Union[int, str] = None):
     data = prep_data()
-    # делаем сводную таблицу
-    table = data.pivot_table(index=['ИсходящаяЛиния', 'Откуда'], values=['Дозвон', 'Звонок'],
-                             aggfunc=[np.sum], margins=True, margins_name='Итого')
-    # добавляем в нее вычисляемое поле
-    table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
-    # Применяем форматирование процентного значения к столбцу '%'
-    table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
-    # Извлекаем строку с итогами
-    total_row = table.iloc[-1].copy()
-    # Удаляем строку с итогами из исходной таблицы
-    table.drop(index='Итого', level='ИсходящаяЛиния', inplace=True)
-    # Вставляем строку с итогами в начало таблицы
-    table = pd.concat([total_row.to_frame().T, table], axis=0)
-    return table
-
-
-def table_number_simple():
-    data = prep_data()
-    # делаем сводную таблицу
-    table = data.pivot_table(index='ИсходящаяЛиния', values=['Дозвон', 'Звонок'],
-                             aggfunc=[np.sum], margins=True, margins_name='Итого')
-    # добавляем в нее вычисляемое поле
-    table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
-    # Применяем форматирование процентного значения к столбцу '%'
-    table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
-    # Извлекаем строку с итогами
-    total_row = table.iloc[-1].copy()
-    table = table.reindex(index=['Итого'] + table.index[:-1].tolist())
-    return table
+    if options is None:
+        # делаем сводную таблицу
+        table = data.pivot_table(index=['ИсходящаяЛиния', 'Откуда'], values=['Дозвон', 'Звонок'],
+                                 aggfunc=[np.sum], margins=True, margins_name='Итого')
+        # добавляем в нее вычисляемое поле
+        table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
+        # Применяем форматирование процентного значения к столбцу '%'
+        table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
+        # Извлекаем строку с итогами
+        total_row = table.iloc[-1].copy()
+        # Удаляем строку с итогами из исходной таблицы
+        table.drop(index='Итого', level='ИсходящаяЛиния', inplace=True)
+        # Вставляем строку с итогами в начало таблицы
+        table = pd.concat([total_row.to_frame().T, table], axis=0)
+        return table
+    else:
+        # делаем сводную таблицу
+        table = data.pivot_table(index='ИсходящаяЛиния', values=['Дозвон', 'Звонок'],
+                                 aggfunc=[np.sum], margins=True, margins_name='Итого')
+        # добавляем в нее вычисляемое поле
+        table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
+        # Применяем форматирование процентного значения к столбцу '%'
+        table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
+        # Извлекаем строку с итогами
+        total_row = table.iloc[-1].copy()
+        table = table.reindex(index=['Итого'] + table.index[:-1].tolist())
+        return table
 
 
 # По номерам опенерам
-def table_opener():
+def table_opener(options: Union[int, str] = None):
     data = prep_data()
-    table = data.pivot_table(index=['Откуда', 'ИсходящаяЛиния'], values=['Звонок', 'Дозвон'], aggfunc=[np.sum],
-                             margins=True, margins_name='Итого')
-    # добавляем в нее вычисляемое поле
-    table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
-    # Применяем форматирование процентного значения к столбцу '%'
-    table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
-    # Извлекаем строку с итогами
-    total_row = table.iloc[-1].copy()
-    # Удаляем строку с итогами из исходной таблицы
-    table.drop(index='Итого', level='Откуда', inplace=True)
-    # Вставляем строку с итогами в начало таблицы
-    table = pd.concat([total_row.to_frame().T, table], axis=0)
-    return table
+    if options is None:
+        table = data.pivot_table(index=['Откуда', 'ИсходящаяЛиния'], values=['Звонок', 'Дозвон'], aggfunc=[np.sum],
+                                 margins=True, margins_name='Итого')
+        # добавляем в нее вычисляемое поле
+        table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
+        # Применяем форматирование процентного значения к столбцу '%'
+        table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
+        # Извлекаем строку с итогами
+        total_row = table.iloc[-1].copy()
+        # Удаляем строку с итогами из исходной таблицы
+        table.drop(index='Итого', level='Откуда', inplace=True)
+        # Вставляем строку с итогами в начало таблицы
+        table = pd.concat([total_row.to_frame().T, table], axis=0)
+        return table
+    else:
+        table = data.pivot_table(index='Откуда', values=['Звонок', 'Дозвон'], aggfunc=[np.sum],
+                                 margins=True, margins_name='Итого')
+        # добавляем в нее вычисляемое поле
+        table['Дозвон%'] = table[('sum', 'Дозвон')] / table[('sum', 'Звонок')]
+        # Применяем форматирование процентного значения к столбцу '%'
+        table['Дозвон%'] = table['Дозвон%'].apply(format_percent)
+        # Извлекаем строку с итогами
+        total_row = table.iloc[-1].copy()
+        table = table.reindex(index=['Итого'] + table.index[:-1].tolist())
+        return table
 
 
 # По времени дня

@@ -1,6 +1,6 @@
 from datetime import datetime
 from api.load import start_import
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from tools import table_number, table_opener, table_time_day, table_opener_number, table_opener_time, show_openers_list, \
     show_numbers_list, table_timecall
 from preparData import filter_numbers, filter_openers, filter_delete, settings_openers, settings_delete, set_datarange, \
@@ -8,6 +8,7 @@ from preparData import filter_numbers, filter_openers, filter_delete, settings_o
 from flask.views import MethodView
 
 app = Flask(__name__)
+app.secret_key = "my_secret_key"
 
 
 class CallsMain(MethodView):
@@ -43,7 +44,8 @@ class CallsMain(MethodView):
 
 class callsNumbers(MethodView):
     def get(self):
-        pivot_table = table_number()
+        type_table = session.get('type_table')
+        pivot_table = table_number(type_table)
         table_html = pivot_table.to_html(classes='table table-striped table-bordered')
         return render_template('numbers.html', table=table_html, data_list=show_openers_list(),
                                numbers_list=show_numbers_list())
@@ -58,13 +60,22 @@ class callsNumbers(MethodView):
         elif 'dell_filters' in request.form:
             filter_delete()
             return redirect(url_for('calls_numbers'))
+        elif 'changetype' in request.form:
+            type_table = session.get('type_table')
+            if type_table is None:
+                type_table = 1
+            else:
+                type_table = None
+            session['type_table'] = type_table
+            return redirect(url_for('calls_numbers'))
         else:
             return redirect(url_for('calls_main'))
 
 
 class callsOpeners(MethodView):
     def get(self):
-        pivot_table = table_opener()
+        type_table = session.get('type_table')
+        pivot_table = table_opener(type_table)
         table_html = pivot_table.to_html(classes='table table-striped table-bordered')
         return render_template('openers.html', table=table_html, data_list=show_openers_list(),
                                numbers_list=show_numbers_list())
@@ -78,6 +89,14 @@ class callsOpeners(MethodView):
             return redirect(url_for('calls_openers'))
         elif 'dell_filters' in request.form:
             filter_delete()
+            return redirect(url_for('calls_openers'))
+        elif 'changetype' in request.form:
+            type_table = session.get('type_table')
+            if type_table is None:
+                type_table = 1
+            else:
+                type_table = None
+            session['type_table'] = type_table
             return redirect(url_for('calls_openers'))
         else:
             return redirect(url_for('calls_main'))
