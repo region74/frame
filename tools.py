@@ -173,7 +173,7 @@ def table_timecall():
     #     table[('mean', col)] = table[('mean', col)].apply(lambda x: round(x, 1))
     #     или
     for col in ['Длительность звонка', 'Время ответа']:
-        table[('mean', col)] = table[('mean', col)].round(1)
+        table[('mean', col)] = table[('mean', col)].round(1).astype(int)
     # Перемещаем итоговую строку вверх
     table = table.reindex(index=['Итого'] + table.index[:-1].tolist())
     return table
