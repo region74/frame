@@ -6,7 +6,17 @@ from preparData import prep_data
 
 # Функция для форматирования числа в процентный формат
 def format_percent(x):
-    return '{:.1%}'.format(x)
+    percent = x * 100
+    if x >= 1:
+        return "{:.0f}%".format(percent)
+    elif x >= 0.1:
+        decimal_part = int((percent % 1) * 10)
+        if decimal_part > 5:
+            return "{:.0f}%".format(percent)
+        else:
+            return "{:.1f}%".format(percent)
+    else:
+        return "{:.2f}%".format(percent)
 
 
 # для фильтра по опенерам
